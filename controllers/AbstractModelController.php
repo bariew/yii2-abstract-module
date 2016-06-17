@@ -7,6 +7,11 @@
 
 namespace bariew\abstractModule\controllers;
 
+use bariew\abstractModule\actions\CreateAction;
+use bariew\abstractModule\actions\DeleteAction;
+use bariew\abstractModule\actions\IndexAction;
+use bariew\abstractModule\actions\UpdateAction;
+use bariew\abstractModule\actions\ViewAction;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -19,6 +24,27 @@ use yii\web\NotFoundHttpException;
 class AbstractModelController extends Controller
 {
     public $modelName = '$2';
+
+    public function actions()
+    {
+        return [
+            'index' => [
+                'class' => IndexAction::className(),
+            ],
+            'view' => [
+                'class' => ViewAction::className(),
+            ],
+            'update' => [
+                'class' => UpdateAction::className(),
+            ],
+            'create' => [
+                'class' => CreateAction::className(),
+            ],
+            'delete' => [
+                'class' => DeleteAction::className(),
+            ],
+        ];
+    }
     /**
      * Finds the Item model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

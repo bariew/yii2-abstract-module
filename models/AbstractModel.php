@@ -23,29 +23,33 @@ class AbstractModel extends ActiveRecord
 {
     /**
      * Gets class name for a parent model for the current module's model.
+     * @param bool $asModel
      * @return static
      */
-    public static function parentClass()
+    public static function parentClass($asModel = false)
     {
         $parents = array_values(class_parents(get_called_class()));
         $currentClass = $parents[array_search(get_parent_class(), $parents) - 2];
         $pattern = '#^(.+\\\\)(\w+)$#';
         $myFormName = preg_replace($pattern, '$2', $currentClass);
-        return preg_replace($pattern, '$1'.$myFormName, get_called_class());
+        $result = preg_replace($pattern, '$1'.$myFormName, get_called_class());
+        return $asModel ? new $result() : $result;
     }
 
     /**
      * Gets class name for a model that inherits current modules model.
      * CAUTION! This works only when called from inside another module model
-     * @return \yii\db\ActiveRecord
+     * @param bool $asModel
+     * @return static
      */
-    public static function childClass()
+    public static function childClass($asModel = false)
     {
         $data = debug_backtrace();
         $callingClassName = $data[1]['object']->className();
         $pattern = '#^(.+\\\\)(\w+\\\\\w+)$#';
         $formName = preg_replace($pattern, '$2', get_called_class());
-        return preg_replace($pattern, '$1'.$formName, $callingClassName);
+        $result = preg_replace($pattern, '$1'.$formName, $callingClassName);
+        return $asModel ? new $result() : $result;
     }
 
     public static function moduleName($className)
