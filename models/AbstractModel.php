@@ -75,4 +75,11 @@ class AbstractModel extends ActiveRecord
     {
         return $this::find()->andFilterWhere(array_merge($this->attributes, $params));
     }
+
+    public function __call($name, $params)
+    {
+        $class = static::parentClass();
+
+        return parent::__call($name, $params);
+    }
 }

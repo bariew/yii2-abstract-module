@@ -31,10 +31,12 @@ class IndexAction extends Action
      */
     public function run()
     {
+        //$a = (new \app\modules\user\models\CompanySearch())->search([]);
         /**
          * @var AbstractModel $searchModel
          */
         $searchModel = $this->controller->findModel(false, true);
+
         $data = array_merge([
             'searchModel' => $searchModel,
             'dataProvider' => $searchModel->search(
