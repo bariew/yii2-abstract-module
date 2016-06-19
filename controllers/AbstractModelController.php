@@ -15,6 +15,7 @@ use bariew\abstractModule\actions\ViewAction;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use bariew\abstractModule\models\AbstractModel;
 
 /**
  * For managing abstract items.
@@ -50,7 +51,7 @@ class AbstractModelController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer|boolean $id
      * @param boolean $search
-     * @return \yii\db\ActiveRecord the loaded model
+     * @return AbstractModel the loaded model
      * @throws NotFoundHttpException
      */
     public function findModel($id = false, $search = false)
