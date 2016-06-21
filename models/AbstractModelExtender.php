@@ -32,4 +32,16 @@ class_alias(get_dynamic_parent(), 'bariew\abstractModule\models\DynamicParent');
  * @author Pavel Bariev <bariew@yandex.ru>
  *
  */
-class AbstractModelExtender extends DynamicParent {}
+class AbstractModelExtender extends DynamicParent
+{
+    /**
+     * @inheritdoc
+     */
+    public function search($params = [])
+    {
+        /** @var \yii\db\ActiveQuery $result */
+        $result = parent::search($params);
+        $result->modelClass = parent::parentClass();
+        return $result;
+    }
+}

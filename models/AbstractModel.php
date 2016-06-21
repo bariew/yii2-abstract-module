@@ -28,12 +28,8 @@ class AbstractModel extends ActiveRecord
      */
     public static function parentClass($asModel = false)
     {
-        $parents = array_values(class_parents(get_called_class()));
-        $currentClass = $parents[array_search(get_parent_class(), $parents) - 2];
-        $pattern = '#^(.+\\\\)(\w+)$#';
-        $myFormName = preg_replace($pattern, '$2', $currentClass);
-        $result = preg_replace($pattern, '$1'.$myFormName, get_called_class());
-        return $asModel ? new $result() : $result;
+        $class = array_values(class_parents(get_called_class()))[2];
+        return $asModel ? new $class() : $class;
     }
 
     /**
@@ -74,12 +70,5 @@ class AbstractModel extends ActiveRecord
     public function search($params = [])
     {
         return $this::find()->andFilterWhere(array_merge($this->attributes, $params));
-    }
-
-    public function __call($name, $params)
-    {
-        $class = static::parentClass();
-
-        return parent::__call($name, $params);
     }
 }
