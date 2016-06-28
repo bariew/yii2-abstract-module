@@ -26,6 +26,10 @@ class AbstractModelController extends Controller
 {
     public $modelName = '$2';
 
+    public $createRedirectAction = 'view';
+    public $updateRedirectAction = 'view';
+    public $deleteRedirectAction = ['index'];
+
     public function actions()
     {
         return [
@@ -35,14 +39,17 @@ class AbstractModelController extends Controller
             'view' => [
                 'class' => ViewAction::className(),
             ],
-            'update' => [
-                'class' => UpdateAction::className(),
-            ],
             'create' => [
                 'class' => CreateAction::className(),
+                'redirectAction' => $this->createRedirectAction,
+            ],
+            'update' => [
+                'class' => UpdateAction::className(),
+                'redirectAction' => $this->updateRedirectAction,
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
+                'redirectAction' => $this->deleteRedirectAction,
             ],
         ];
     }

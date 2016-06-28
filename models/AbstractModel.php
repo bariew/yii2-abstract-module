@@ -24,7 +24,7 @@ class AbstractModel extends ActiveRecord
     /**
      * Gets class name for a parent model for the current module's model.
      * @param bool $asModel
-     * @return static
+     * @return static|string
      */
     public static function parentClass($asModel = false)
     {
@@ -36,7 +36,7 @@ class AbstractModel extends ActiveRecord
      * Gets class name for a model that inherits current modules model.
      * CAUTION! This works only when called from inside another module model
      * @param bool $asModel
-     * @return static
+     * @return static|string
      */
     public static function childClass($asModel = false)
     {
@@ -48,6 +48,10 @@ class AbstractModel extends ActiveRecord
         return $asModel ? new $result() : $result;
     }
 
+    /**
+     * @param $className
+     * @return mixed
+     */
     public static function moduleName($className)
     {
         return preg_replace('#.*\\\\(\w+)\\\\\w+\\\\\w+$#','$1', $className);
