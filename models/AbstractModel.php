@@ -41,7 +41,7 @@ class AbstractModel extends ActiveRecord
     public static function childClass($asModel = false)
     {
         $data = debug_backtrace();
-        $callingClassName = $data[1]['object']->className();
+        $callingClassName = get_class($data[1]['object']);
         $pattern = '#^(.+\\\\)(\w+\\\\\w+)$#';
         $formName = preg_replace($pattern, '$2', get_called_class());
         $result = preg_replace($pattern, '$1'.$formName, $callingClassName);
