@@ -38,4 +38,10 @@ class AbstractModule extends \yii\base\Module
     {
         return preg_replace('#^(.+)\\\\\w+$#', '$1', static::childClass());
     }
+    
+    public static function getModelClass($name, $asModel = false)
+    {
+        $class = static::getNamespace() . $name;
+        return $asModel ? new $class() : $class;
+    }
 }
