@@ -12,13 +12,13 @@ use Yii;
 function get_dynamic_parent(){
     $backtrace = debug_backtrace();
     foreach ($backtrace as $key => $data) {
-        if (@$data['args'][0] != 'bariew\abstractModule\models\AbstractModelExtender') {
+        if (@$data['args'][0] !== 'bariew\abstractModule\models\AbstractModelExtender') {
             continue;
         }
         $class = $backtrace[$key+6]['args'][0];
         break;
     }
-    return preg_replace('#^(.+)Search$#', '$1', $class);
+    return preg_replace('#^(.+\\\\[A-Z][a-z]+)[A-Z]\w+$#', '$1', $class);
 }
 
 class_alias(get_dynamic_parent(), 'bariew\abstractModule\models\DynamicParent');
@@ -34,6 +34,11 @@ class_alias(get_dynamic_parent(), 'bariew\abstractModule\models\DynamicParent');
  */
 class AbstractModelExtender extends DynamicParent
 {
+    public static function tableName()
+    {
+        $parent = DynamicParent::className();
+        return $parent::tableName();
+    }
     /**
      * @inheritdoc
      */

@@ -36,16 +36,17 @@ class AbstractModel extends ActiveRecord
      * Gets class name for a model that inherits current modules model.
      * CAUTION! This works only when called from inside another module model
      * @param bool $asModel
-     * @return static|string
+     * @param array $initData
+     * @return string|static
      */
-    public static function childClass($asModel = false)
+    public static function childClass($asModel = false, $initData = [])
     {
         $data = debug_backtrace();
         $callingClassName = get_class($data[1]['object']);
         $pattern = '#^(.+\\\\)(\w+\\\\\w+)$#';
         $formName = preg_replace($pattern, '$2', get_called_class());
         $result = preg_replace($pattern, '$1'.$formName, $callingClassName);
-        return $asModel ? new $result() : $result;
+        return $asModel ? new $result($initData) : $result;
     }
 
     /**
@@ -62,7 +63,7 @@ class AbstractModel extends ActiveRecord
      */
     public static function tableName()
     {
-        $name = preg_replace(['#.*\\\\(\w+)\\\\models\\\\(\w+)$#', '#^(.+)Search$#'],['$1$2', '$1'], static::className());
+        $name = preg_replace('#.*\\\\(\w+)\\\\models\\\\(\w+)$#', '$1$2', static::className());
         return '{{%'.Inflector::camel2id($name, '_').'}}';
     }
 

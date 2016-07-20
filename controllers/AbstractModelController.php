@@ -63,15 +63,26 @@ class AbstractModelController extends Controller
      */
     public function findModel($id = false, $search = false)
     {
-        $class = preg_replace(
-            '#^(.+)\\\\controllers\\\\(.+)Controller#',
-            '$1\\\\models\\\\'.$this->modelName,
-            static::className()
-        ) . ($search ? 'Search' : '');
+        $class = static::getModelClass($this->modelName) . ($search ? 'Search' : '');
         $model = new $class();
         if ($id && (!$model = $model->search(compact('id'))->one())) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
         return $model;
+    }
+
+    /**
+     * @param $modelName
+     * @param bool|array $init
+     * @return mixed
+     */
+    protected static function getModelClass($modelName, $init = false)
+    {
+        $class = preg_replace(
+            '#^(.+)\\\\controllers\\\\(.+)Controller#',
+            '$1\\\\models\\\\'.$modelName,
+            static::className()
+        );
+        return ($init === false) ? $class : new $class($init);
     }
 }
