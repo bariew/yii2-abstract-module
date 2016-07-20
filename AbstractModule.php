@@ -38,10 +38,15 @@ class AbstractModule extends \yii\base\Module
     {
         return preg_replace('#^(.+)\\\\\w+$#', '$1', static::childClass());
     }
-    
-    public static function getModelClass($name, $asModel = false)
+
+    /**
+     * @param $name
+     * @param bool|array $init
+     * @return string
+     */
+    public static function getModelClass($name, $init = false)
     {
         $class = static::getNamespace() . $name;
-        return $asModel ? new $class() : $class;
+        return ($init !== false) ? new $class($init) : $class;
     }
 }
