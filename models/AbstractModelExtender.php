@@ -34,11 +34,14 @@ class_alias(get_dynamic_parent(), 'bariew\abstractModule\models\DynamicParent');
  */
 class AbstractModelExtender extends DynamicParent
 {
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
-        $parent = DynamicParent::className();
-        return $parent::tableName();
+        return DynamicParent::tableName();
     }
+
     /**
      * @inheritdoc
      */
