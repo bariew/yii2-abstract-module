@@ -9,10 +9,10 @@ namespace bariew\abstractModule\controllers;
 
 use bariew\abstractModule\actions\CreateAction;
 use bariew\abstractModule\actions\DeleteAction;
+use bariew\abstractModule\actions\DeleteAllAction;
 use bariew\abstractModule\actions\IndexAction;
 use bariew\abstractModule\actions\UpdateAction;
 use bariew\abstractModule\actions\ViewAction;
-use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use bariew\abstractModule\models\AbstractModel;
@@ -51,8 +51,13 @@ class AbstractModelController extends Controller
                 'class' => DeleteAction::className(),
                 'redirectAction' => $this->deleteRedirectAction,
             ],
+            'delete-all' => [
+                'class' => DeleteAllAction::className(),
+                'redirectAction' => $this->deleteRedirectAction,
+            ],
         ];
     }
+
     /**
      * Finds the Item model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
